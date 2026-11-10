@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_bitacora_de_campo.R;
 import com.example.app_bitacora_de_campo.data.remote.RegistroDto;
+import com.example.app_bitacora_de_campo.data.remote.RetrofitClient;
+import com.example.app_bitacora_de_campo.data.remote.SessionManager;
 import com.example.app_bitacora_de_campo.viewmodel.ListadoViewModel;
 
 public class ListadoActivity extends AppCompatActivity {
@@ -25,11 +27,22 @@ public class ListadoActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private LinearLayout layoutVacio;
     private Button btnReintentar;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
+
+
+        RetrofitClient.inicializar(this);
+        sessionManager = new SessionManager(this);
+
+
+        if (!sessionManager.estaLogueado()) {
+            irAlLogin();
+            return;
+        }
 
         recycler = findViewById(R.id.recycler);
         progressBar = findViewById(R.id.progressBarListado);
@@ -60,12 +73,18 @@ public class ListadoActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(RegistroDto item) {
-                new AlertDialog.Builder(ListadoActivity.this)
-                        .setTitle("Eliminar")
-                        .setMessage("Esta seguro de eliminar el item seleccionado?")
-                        .setPositiveButton("Si", (d, w) -> viewModel.eliminarRegistro(item.getId()))
-                        .setNegativeButton("No", null)
-                        .show();
+
+                String rol = sessionManager.obtenerRol();
+                if ("Admin".equals(rol)) {
+                    new AlertDialog.Builder(ListadoActivity.this)
+                            .setTitle("Eliminar")
+                            .setMessage("¿Estás seguro de eliminar el item seleccionado?")
+                            .setPositiveButton("Sí", (d, w) -> viewModel.eliminarRegistro(item.getId()))
+                            .setNegativeButton("No", null)
+                            .show();
+                } else {
+                    Toast.makeText(ListadoActivity.this, "Solo los administradores pueden eliminar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -96,17 +115,36 @@ public class ListadoActivity extends AppCompatActivity {
 
         viewModel.error.observe(this, err -> {
             if (err != null) {
-                Toast.makeText(this, err, Toast.LENGTH_LONG).show();
-                btnReintentar.setVisibility(View.VISIBLE);
+                // Manejo de errores de seguridad
+                if (err.contains("401")) {
+                    Toast.makeText(this, "Sesión expirada. Inicia sesión de nuevo.", Toast.LENGTH_LONG).show();
+                    irAlLogin();
+                } else if (err.contains("403")) {
+                    Toast.makeText(this, "No tienes permisos para esta acción.", Toast.LENGTH_LONG).show();
+                    // No cerramos sesión, solo informamos
+                } else {
+                    Toast.makeText(this, err, Toast.LENGTH_LONG).show();
+                    btnReintentar.setVisibility(View.VISIBLE);
+                }
             } else {
                 btnReintentar.setVisibility(View.GONE);
             }
         });
     }
 
+    private void irAlLogin() {
+        sessionManager.cerrarSesion();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        viewModel.cargarRegistros();
+        if (sessionManager.estaLogueado()) {
+            viewModel.cargarRegistros();
+        }
     }
 }

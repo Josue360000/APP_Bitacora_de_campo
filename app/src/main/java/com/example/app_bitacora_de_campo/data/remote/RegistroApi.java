@@ -24,4 +24,11 @@ public interface RegistroApi {
 
     @DELETE("api/registros/{id}")
     Call<Void> eliminar(@Path("id") int id);
+
+    // NUEVOS ENDPOINTS
+    @POST("api/auth/login")
+    Call<AuthResponseDto> login(@Body LoginDto login);
+
+    @POST("api/auth/registro")
+    Call<Void> registrar(@Body RegistroUsuarioDto registro);
 }

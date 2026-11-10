@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.media.ExifInterface;
+import android.graphics.Matrix;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -156,6 +158,10 @@ public class FormularioActivity extends AppCompatActivity {
         if (requestCode == REQ_FOTO && resultCode == RESULT_OK) {
             Bitmap bmp = BitmapFactory.decodeFile(rutaFotoActual);
 
+
+            bmp = corregirRotacion(bmp, rutaFotoActual);
+
+
             int ancho = bmp.getWidth();
             int alto = bmp.getHeight();
             if (ancho > 1024 || alto > 1024) {
@@ -170,6 +176,7 @@ public class FormularioActivity extends AppCompatActivity {
                 bmp = Bitmap.createScaledBitmap(bmp, ancho, alto, true);
             }
 
+
             imgFoto.setImageBitmap(bmp);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.JPEG, 70, baos);
@@ -182,6 +189,34 @@ public class FormularioActivity extends AppCompatActivity {
                 String textoDictado = resultados.get(0);
                 edtDescripcion.setText(textoDictado);
             }
+        }
+    }
+
+
+    private Bitmap corregirRotacion(Bitmap bitmap, String rutaFoto) {
+        try {
+            ExifInterface exif = new ExifInterface(rutaFoto);
+            int orientacion = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            Matrix matrix = new Matrix();
+            switch (orientacion) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    matrix.postRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    matrix.postRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    matrix.postRotate(270);
+                    break;
+                default:
+                    return bitmap;
+            }
+
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return bitmap;
         }
     }
 }
