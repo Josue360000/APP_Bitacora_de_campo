@@ -63,6 +63,11 @@
         <activity android:name=".Vista.LoginActivity" android:exported="false" />
         <activity android:name=".Vista.RegistroActivity" android:exported="false" />
 
+        <activity
+            android:name=".Vista.ComparativaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

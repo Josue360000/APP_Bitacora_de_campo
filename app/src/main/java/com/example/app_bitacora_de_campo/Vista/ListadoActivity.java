@@ -90,6 +90,11 @@ public class ListadoActivity extends AppCompatActivity {
 
         observarEstados();
         viewModel.cargarRegistros();
+
+        Button btnComparativa = findViewById(R.id.btnComparativa);
+        btnComparativa.setOnClickListener(v -> {
+            startActivity(new Intent(ListadoActivity.this, ComparativaActivity.class));
+        });
     }
 
     private void observarEstados() {
