@@ -50,6 +50,12 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <!-- Tarea 2.5: pantalla de laboratorio (comparativa de librerías) -->
+        <activity
+            android:name=".Vista.LaboratorioActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

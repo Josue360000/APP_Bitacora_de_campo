@@ -28,6 +28,16 @@
             android:backgroundTint="@color/amarillo"
             android:text="Nueva"
             android:textColor="@color/negro" />
+
+        <!-- Tarea 2.5: abre la pantalla de laboratorio -->
+        <Button
+            android:id="@+id/btnLaboratorio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/blanco"
+            android:text="Comparar"
+            android:textColor="@color/verde_oscuro" />
     </LinearLayout>
 
     <FrameLayout

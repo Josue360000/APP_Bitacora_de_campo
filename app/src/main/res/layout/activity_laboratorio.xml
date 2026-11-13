@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarea 2.5: pantalla de laboratorio para comparar Retrofit, OkHttp y Volley. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blanco">
+
+    <!-- Barra de arriba, con el mismo estilo que la pantalla de la lista. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/verde_oscuro"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Laboratorio"
+            android:textColor="@color/blanco"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnVolver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/amarillo"
+            android:text="Volver"
+            android:textColor="@color/negro" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cada botón pide la lista de registros (GET /api/registros) con una librería distinta y muestra cuántos registros llegaron y cuánto tardó."
+            android:textColor="@color/negro"
+            android:textSize="14sp" />
+
+        <!-- Los tres botones: uno por librería. -->
+        <Button
+            android:id="@+id/btnRetrofit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/verde"
+            android:text="Retrofit"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/btnOkHttp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/verde"
+            android:text="OkHttp"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/btnVolley"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/verde"
+            android:text="Volley"
+            android:textColor="@color/blanco" />
+
+        <!-- Aquí se escribe el resultado de cada consulta. -->
+        <TextView
+            android:id="@+id/txtResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/gris"
+            android:padding="16dp"
+            android:text="Toca un botón para consultar."
+            android:textColor="@color/negro"
+            android:textIsSelectable="true"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
