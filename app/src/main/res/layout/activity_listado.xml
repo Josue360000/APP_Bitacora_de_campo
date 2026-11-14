@@ -22,6 +22,15 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btnLab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="@color/blanco"
+            android:text="Lab"
+            android:textColor="@color/verde_oscuro" />
+
+        <Button
             android:id="@+id/btnNuevo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

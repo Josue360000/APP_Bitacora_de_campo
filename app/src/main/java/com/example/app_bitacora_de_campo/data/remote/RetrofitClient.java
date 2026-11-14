@@ -12,7 +12,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://proyectosic.lat/";
+    public static final String BASE_URL = "https://proyectosic.lat/";
+    public static final int TIMEOUT_SEGUNDOS = 10;
     private static Retrofit retrofit = null;
     private static SessionManager sessionManager;
 
@@ -30,7 +31,7 @@ public class RetrofitClient {
                 Request originalRequest = chain.request();
                 String token = sessionManager != null ? sessionManager.obtenerToken() : null;
 
-                if (token != null) {
+                if (token != null && originalRequest.header("Authorization") == null) {
                     Request newRequest = originalRequest.newBuilder()
                             .header("Authorization", "Bearer " + token)
                             .build();
@@ -42,8 +43,8 @@ public class RetrofitClient {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(authInterceptor)
                     .addInterceptor(logging)
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(TIMEOUT_SEGUNDOS, TimeUnit.SECONDS)
+                    .readTimeout(TIMEOUT_SEGUNDOS, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()
