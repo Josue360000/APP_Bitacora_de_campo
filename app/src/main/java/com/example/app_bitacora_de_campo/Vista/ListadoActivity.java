@@ -49,6 +49,7 @@ public class ListadoActivity extends AppCompatActivity {
         layoutVacio = findViewById(R.id.layoutVacio);
         btnReintentar = findViewById(R.id.btnReintentar);
         Button btnNuevo = findViewById(R.id.btnNuevo);
+        Button btnLaboratorio = findViewById(R.id.btnLaboratorio);
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BitacoraAdapter();
@@ -60,6 +61,10 @@ public class ListadoActivity extends AppCompatActivity {
             Intent i = new Intent(this, FormularioActivity.class);
             startActivity(i);
         });
+
+        // Tarea 2.5: el botón "Comparar" abre la pantalla de laboratorio.
+        btnLaboratorio.setOnClickListener(v ->
+                startActivity(new Intent(this, LaboratorioActivity.class)));
 
         btnReintentar.setOnClickListener(v -> viewModel.cargarRegistros());
 

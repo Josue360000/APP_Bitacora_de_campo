@@ -12,7 +12,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://proyectosic.lat/";
+    // Público para que OkHttp y Volley (Tarea 2.5) usen la misma dirección de la API.
+    public static final String BASE_URL = "https://proyectosic.lat/";
     private static Retrofit retrofit = null;
     private static SessionManager sessionManager;
 
