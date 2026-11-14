@@ -18,6 +18,10 @@ public class RegistroRepository {
         api.listar().enqueue(callback);
     }
 
+    public void listarDesde(String url, String authorization, Callback<List<RegistroDto>> callback) {
+        api.listarDesde(url, authorization).enqueue(callback);
+    }
+
     public void obtener(int id, Callback<RegistroDto> callback) {
         api.obtener(id).enqueue(callback);
     }

@@ -61,6 +61,9 @@ public class ListadoActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        Button btnLab = findViewById(R.id.btnLab);
+        btnLab.setOnClickListener(v -> startActivity(new Intent(this, ComparativaActivity.class)));
+
         btnReintentar.setOnClickListener(v -> viewModel.cargarRegistros());
 
         adapter.setOnItemClickListener(new BitacoraAdapter.OnItemClickListener() {

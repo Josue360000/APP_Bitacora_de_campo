@@ -5,13 +5,18 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 public interface RegistroApi {
     @GET("api/registros")
     Call<List<RegistroDto>> listar();
+
+    @GET
+    Call<List<RegistroDto>> listarDesde(@Url String url, @Header("Authorization") String authorization);
 
     @GET("api/registros/{id}")
     Call<RegistroDto> obtener(@Path("id") int id);
